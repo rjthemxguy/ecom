@@ -1,15 +1,26 @@
 import { useParams } from "react-router-dom"
 import {Link} from "react-router-dom"
 import products from "../products"
+import axios from "axios"
+import {useEffect, useState} from 'react'
 import {Row, Col , Image, ListGroup, Card, Button, ListGroupItem} from 'react-bootstrap'
 import Rating from "../components/Rating"
 
 const ProductScreen = () => {
 
+    const [product, setProduct] = useState({})
     const {id:productID} = useParams()
 
-    const product = products.find((p) => p._id === productID)
-    console.log(product)
+    useEffect(()=>{
+      const fetchProduct = async ()=>{
+        const {data} = await axios.get(`http://192.81.132.51:5000/api/products/${productID}`);
+        setProduct(data);
+      }
+    
+      fetchProduct();
+
+    },[productID])
+
 
   return (
     <>
