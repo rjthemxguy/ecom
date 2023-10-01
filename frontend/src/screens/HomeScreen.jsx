@@ -10,6 +10,8 @@ const HomeScreen = () => {
   return (
       <>
     
+
+    {isLoading ? (<h2>Loading</h2>) : (<>
       <h1>Latest Products</h1>
       <Row>
 
@@ -21,6 +23,10 @@ const HomeScreen = () => {
 
         ))}
       </Row>
+    
+    </>)}
+
+      
     </>
   )
 }
