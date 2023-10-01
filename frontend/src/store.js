@@ -11,8 +11,8 @@ const store = configureStore({
    // cart: cartSliceReducer,
    // auth: authReducer, // add this line
   },
-  //middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+  //middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   devTools: true,
 });
 
