@@ -1,7 +1,8 @@
 import {Row, Col} from 'react-bootstrap'
 import Product from '../components/Product'
 import { useGetProductsQuery } from '../slices/productsApiSlice'
-
+import {Spinner} from 'react-bootstrap'
+import Message from '../components/Message'
 const HomeScreen = () => {
 
   const  {data:products, isLoading, error} = useGetProductsQuery();
@@ -11,8 +12,8 @@ const HomeScreen = () => {
       <>
     
 
-    {isLoading ? (<h2>Loading</h2>) : (<>
-      <h1>Latest Products</h1>
+    {isLoading ? (<Spinner/>) : error ? (<Message varient="danger">{error?.data?.message || error.error}</Message>) : (<>
+      
       <Row>
 
         {products.map((product) =>(
