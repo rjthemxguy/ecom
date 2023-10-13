@@ -27,6 +27,7 @@ const authUser = asyncHandler(async(req,res)=>{
 
 const registerUser = asyncHandler(async(req,res)=>{
     const {name, email, password} = req.body
+
     
     const userExists = await User.findOne({email})
     if(userExists) {
@@ -86,8 +87,7 @@ const getUserProfile = asyncHandler(async(req,res)=>{
 const updateUserProfile = asyncHandler(async(req,res)=>{
     const user = await User.findById(req.user._id)
 
-    
-
+  
     if(user) {
         user.name = req.body.name || user.name
         user.email = req.body.email || user.email
@@ -112,19 +112,59 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
 })
 
 const getUsers = asyncHandler(async(req,res)=>{
-    res.send("Get Users")
+    const users = await User.find({})
+    res.status(200).json(users)
 })
 
 const deleteUser = asyncHandler(async(req,res)=>{
-    res.send("Delete User")
+    const user = await User.findById(req.parms.id).select('-password')
+
+    if (user) {
+        await User.deleteOne({_id:user._id})
+        res.status(200).json({messsage: "User Deleted"})
+    }
+    else{
+        res.status(404)
+        throw new Error("User not found")
+    }
 })
 
 const getUserById = asyncHandler(async(req,res)=>{
-    res.send("Get User By ID")
+    const user = await User.findById(req.parms.id).select('-password')
+
+    if (user) {
+        res.status(200).json(user)
+    }
+    else {
+        res.status(400)
+        throw new Error("No user found")
+    }
 })
 
 const updateUser = asyncHandler(async(req,res)=>{
-    res.send("Update User")
+    const user = await User.findById(req.params.id)
+
+    if(user) {
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
+        user.isAdmin = Boolean(req.body.isAdmin) || user.isAdmin
+
+        const updatedUser = await user.save()
+
+        res.status(200).json({
+            _id:updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin
+        })
+
+        
+
+    }
+    else {
+        res.status(400)
+        throw new Error("User not found")
+    }
 })
 
 export {

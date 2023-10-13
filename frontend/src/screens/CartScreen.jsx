@@ -22,7 +22,8 @@ const removeFromCartHandler = async (id)=>{
 }
 
 const checkoutHandler = ()=> {
-    navigate('/login?/shipping')
+    navigate('/login?redirect=/shipping');
+    navigate('/shipping');
 }
 
 <Col md="4">
